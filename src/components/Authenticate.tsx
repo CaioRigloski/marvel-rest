@@ -1,9 +1,10 @@
-import { Alert, Button, Container, FormControl, FormGroup, Input, InputLabel, styled } from "@mui/material"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useCookies } from 'react-cookie'
 import axios from 'axios'
 import { Md5 } from 'ts-md5'
+import { Alert, Button, Container, FormControl, FormGroup, Input, InputLabel, styled } from "@mui/material"
 import CredentialsAuth from "../interfaces/CredentialsAuth.interface"
-import { useCookies } from 'react-cookie'
 import BackgroundImg from '../assets/images/marvel-comic-book-background-0exuprkk5cwj6ail.jpg'
 
 
@@ -58,12 +59,19 @@ const FormGroupSx = {
 }
 
 export default function Authenticate() {
+    const navigate = useNavigate()
     const [cookies, setCookies] = useCookies(['publicApiKey', 'privateApiKey', 'isAuthenticated'])
     const [errorMessage, setErrorMessage] = useState<String>('')
     const [credentials, setCredentials] = useState<CredentialsAuth>({
         privateKey: '',
         publicKey: ''
     })
+
+    useEffect(() => {
+        if(cookies.isAuthenticated) {
+            navigate('/characters')
+        }
+    }, [])
 
     function setPrivateKey(e: any) {
         setCredentials({
@@ -101,6 +109,7 @@ export default function Authenticate() {
                     setCookies('privateApiKey', privateApiKey)
                     setCookies('publicApiKey', publicApiKey)
                     setCookies('isAuthenticated', true)
+                    navigate('/characters')
                  }
                 }).catch(err => {
                     if(err.response.status === 401) {

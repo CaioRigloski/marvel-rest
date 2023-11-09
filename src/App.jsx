@@ -1,10 +1,10 @@
-import CharacterBox from './components/CharacterBox'
-import MenuBar from './components/MenuBar'
-import { Box, Container } from '@mui/material'
-import BackgroundImg from './assets/images/marvel-comic-book-background-0exuprkk5cwj6ail.jpg'
-import styled from '@emotion/styled'
-import Authenticate from './components/Authenticate'
 import { useCookies } from 'react-cookie'
+import { Box, Container } from '@mui/material'
+import styled from '@emotion/styled'
+import ProtectedRoute from './components/ProtectedRoute'
+import Characters from './components/Characters'
+import MenuBar from './components/MenuBar'
+import BackgroundImg from './assets/images/marvel-comic-book-background-0exuprkk5cwj6ail.jpg'
 
 
 const AppContainerSx = {
@@ -41,17 +41,15 @@ function App() {
   }
   
   return (
-    <Container maxWidth={false} sx={AppContainerSx}>
-      {cookies?.isAuthenticated ?
-      <>
+    <ProtectedRoute>
+      <Container maxWidth={false} sx={AppContainerSx} className="App">
         <BackgroundImage src={BackgroundImg}/>
         <MenuBar/>
-        <Box component='main' className="App" sx={AppBoxSx}>
-          <CharacterBox/>
+        <Box component='main' sx={AppBoxSx}>
+          <Characters/>
         </Box>
-      </>
-      : <Authenticate/>}
-    </Container>
+      </Container>
+    </ProtectedRoute>
   )
 }
 

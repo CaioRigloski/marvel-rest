@@ -1,4 +1,4 @@
-export default interface Characters {
+export default interface CharactersPs {
     id: number,
     name: string,
     description: string,

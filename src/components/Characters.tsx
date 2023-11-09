@@ -1,10 +1,11 @@
-import { Box, ButtonGroup, Card, Container, SxProps, styled } from '@mui/material'
-import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
-import { Md5 } from 'ts-md5'
-import ViewButton from './dumbComponents/ViewButton'
-import Characters from '../interfaces/Characters.interface'
 import { useCookies } from 'react-cookie'
+import axios from 'axios'
+import { Md5 } from 'ts-md5'
+import { Box, ButtonGroup, Card, Container, SxProps, styled } from '@mui/material'
+import ViewButton from './dumbComponents/ViewButton'
+import CharactersPs from '../interfaces/CharactersPs.interface'
+
 
 const boxSx = {
     display: 'grid',
@@ -96,9 +97,9 @@ const CardDescription = styled('p')({
 })
 
 
-export default function CharacterBox() {
+export default function Characters() {
     const [cookies, setCookies] = useCookies(['publicApiKey', 'privateApiKey', 'isAuthenticated'])
-    const [characters, setCharacters] = useState<Characters[]>([])
+    const [characters, setCharacters] = useState<CharactersPs[]>([])
     const [carouselIndex, setCarouselIndex] = useState<number>(0)
     const [view, setView] = useState<ScrollLogicalPosition | undefined>()
     const scrollRef = useRef<HTMLDivElement>(null)
@@ -167,7 +168,7 @@ export default function CharacterBox() {
             <Container
             ref={containerRef}
             sx={containerSx}>
-            {characters.map((character, index) => {
+            {characters.map((character: CharactersPs, index: number) => {
                 return (
                 <Card
                     key={character.id}
